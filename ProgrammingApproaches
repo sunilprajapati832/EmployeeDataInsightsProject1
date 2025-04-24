@@ -1,0 +1,57 @@
+import pandas as pd
+
+# Load your CSV file
+df = pd.read_csv('employees.csv')
+df = df.drop_duplicates()
+df.dropna(inplace=True)
+# pd.set_option('display.max_rows', None)
+# print(df)
+teams = df['Team'].unique()
+
+print("-------------- Welcome to Employee Data --------------")
+a = input("\tPress keys as you wish for "
+      "\n1. You want to know total number of Teams in this data "
+      "\n2. You want know all names of Teams in this data"
+      "\n3. If you want to complete details of any Team "
+          "\n4. Team-wise Gender Count (Pivot Table)"
+          "\n5. Average salary per Team\n" )
+
+b = int (a)
+
+match b:
+    case 1:
+            total_teams = len(df['Team'].unique())
+            print("Total number of Teams:", total_teams)
+
+    case 2:
+            print(df['Team'].unique())
+
+    case 3:
+            c = input(" Please select Team : \n "
+            "1.Marketing  2.Finance  3.Client Services  4.Legal  5.Product  6.Engineering  7.Business Development  "
+            "8.Human Resource  9.Sales  10.Distribution \n")
+            index = int (c) - 1
+            team_count = len(df[df['Team'] == teams[index]])
+            print(f"Number of employees in {teams[index]} Team : {team_count}")
+            df_team = df[df['Team'] == teams[index]]
+            gender_counts = df_team.groupby(['Team', 'Gender']).size().unstack(fill_value=0)
+            print(gender_counts)
+            print("-----------------Details as below-------------------")
+            pd.set_option('display.max_rows', None)
+            print(df_team)
+            print("\n")
+
+    case 4:
+            print("Team-wise Gender Count (Pivot Table)")
+            gender_counts = df.groupby(['Team', 'Gender']).size().unstack(fill_value=0)
+            print(gender_counts)
+
+    case 5:
+            print("Average salary per team")
+            team_stats = df.groupby('Team').agg({
+                'Salary': ['mean', 'min', 'max'],
+                'Bonus %': ['mean', 'std'] })
+            print(team_stats)
+
+    case _:
+            print("please enter correct value")
