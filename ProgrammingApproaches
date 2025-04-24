@@ -53,5 +53,57 @@ match b:
                 'Bonus %': ['mean', 'std'] })
             print(team_stats)
 
+    case 6:
+            d = input(" Enter type of chart you want :"
+                      "1. Bar Chart  2.Line Chart  3.Histogram  4.BoxPlot  5.ScatterPlot  6.Heatmap  7.PieChart  8.Treemap\n")
+            e = int(d)
+            match e:
+                case 1:
+                        column1 = input("You choose 'Bar Chart' then please enter first column name in between you want to see the graph \n")
+                        column2 = input("Enter second column name:\n")
+                        plt.figure(figsize=(10, 6))
+                        plt.bar(df[column1], df[column2], color='lightgreen', edgecolor='black')
+                        plt.title(f'{column2} by Team')
+                        plt.xlabel(column1)
+                        plt.ylabel(column2)
+                        plt.xticks(rotation=45)
+                        plt.grid(axis='y', linestyle='--', alpha=0.5)
+                        plt.tight_layout()
+                        plt.show()
+
+                case 2:
+                        column1 = input("You choose 'Line Chart' then please enter first numerical column name in between you want to see the graph \n")
+                        column2 = input("Enter second numerical column name:\n")
+                        plt.figure(figsize=(10, 6))
+                        plt.plot(df[column1], df[column2], marker='o', linestyle='-', color='green')
+                        plt.title(f'{column1} vs {column2}')
+                        plt.xlabel(column1)
+                        plt.ylabel(column2)
+                        plt.grid(True, linestyle='--', alpha=0.5)
+                        plt.tight_layout()
+                        plt.show()
+
+                case 3:
+                        plt.figure(figsize=(10, 6))
+                        column1 = input(
+                            "You choose 'Histogram' then please enter first column name in between you want to see the graph \n")
+                        column2 = input("Enter second column name:\n")
+                        plt.hist(df[column1], bins=20, alpha=0.6, label='Salary', color='skyblue', edgecolor='black')
+                        plt.hist(df[column2], bins=20, alpha=0.6, label='Bonus %', color='orange', edgecolor='black')
+                        plt.title(f'Histogram: {column1} vs {column2}')
+                        plt.xlabel('Value')
+                        plt.ylabel('Frequency')
+                        plt.legend()
+                        plt.grid(True, linestyle='--', alpha=0.5)
+                        plt.tight_layout()
+                        plt.show()
+
+
+
+
+
+                case _:
+                        print("please enter correct value")
+
     case _:
             print("please enter correct value")
